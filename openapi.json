@@ -1,0 +1,486 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/user/signup": {
+      "post": {
+        "operationId": "UsersController_signup",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SignUpDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User created.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TokensDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "409": {
+            "description": "User with this email already exists"
+          }
+        },
+        "tags": ["User"]
+      }
+    },
+    "/user/login": {
+      "post": {
+        "operationId": "UsersController_login",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User logged in",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TokensDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Password is incorrect"
+          },
+          "404": {
+            "description": "User does not exist!"
+          }
+        },
+        "tags": ["User"]
+      }
+    },
+    "/user/refresh": {
+      "post": {
+        "operationId": "UsersController_refreshTokens",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RefreshTokenDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Tokens successfully refreshed!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TokensDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "403": {
+            "description": "Access Denied"
+          }
+        },
+        "tags": ["User"]
+      }
+    },
+    "/user/account/delete": {
+      "delete": {
+        "operationId": "UsersController_deleteUserAccount",
+        "responses": {
+          "200": {
+            "description": "Account deleted successfully!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessageResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User does not exists!"
+          }
+        },
+        "tags": ["User"],
+        "security": [{ "accessToken": [] }]
+      }
+    },
+    "/portfolios": {
+      "post": {
+        "operationId": "PortfoliosController_createPortfolio",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePortfolioDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Portfolio successfully created!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreatePortfolioResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User does not exists!"
+          }
+        },
+        "tags": ["Portfolio"],
+        "security": [{ "accessToken": [] }]
+      }
+    },
+    "/portfolios/delete/{portfolioId}": {
+      "delete": {
+        "operationId": "PortfoliosController_deletePortfolio",
+        "parameters": [
+          {
+            "name": "portfolioId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Portfolio deleted successfully!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessageResponseDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You can not delete this portfolio"
+          },
+          "404": {
+            "description": "User does not exists!"
+          }
+        },
+        "tags": ["Portfolio"],
+        "security": [{ "accessToken": [] }]
+      }
+    },
+    "/images": {
+      "post": {
+        "operationId": "ImagesController_uploadImage",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateImageDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Image successfully uploaded!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateImageReponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User does not exists!"
+          }
+        },
+        "tags": ["Image"],
+        "security": [{ "accessToken": [] }]
+      }
+    },
+    "/images/delete/{imageId}": {
+      "delete": {
+        "operationId": "ImagesController_deleteImage",
+        "parameters": [
+          {
+            "name": "imageId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Image deleted successfully!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessageResponseDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You can not delete this image"
+          },
+          "404": {
+            "description": "User or Image does not exists!"
+          }
+        },
+        "tags": ["Image"],
+        "security": [{ "accessToken": [] }]
+      }
+    },
+    "/images/feed": {
+      "post": {
+        "operationId": "ImagesController_imageFeed",
+        "responses": {
+          "200": {
+            "description": "Image feed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ImageForFeedDto"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": ["Image"],
+        "security": [{ "accessToken": [] }]
+      }
+    }
+  },
+  "info": {
+    "title": "Lanars API docs",
+    "description": "",
+    "version": "1.0",
+    "contact": {}
+  },
+  "tags": [],
+  "servers": [],
+  "components": {
+    "securitySchemes": {
+      "accessToken": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "Token"
+      },
+      "refreshToken": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "Token"
+      }
+    },
+    "schemas": {
+      "SignUpDto": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          }
+        }
+      },
+      "LoginDto": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        }
+      },
+      "TokensDto": {
+        "type": "object",
+        "properties": {
+          "accessToken": {
+            "type": "string",
+            "description": "accessToken"
+          },
+          "refreshToken": {
+            "type": "string",
+            "description": "refreshToken"
+          }
+        }
+      },
+      "CreatePortfolioDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      },
+      "CreateImageDto": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "comment": {
+            "type": "string"
+          },
+          "portfolioId": {
+            "type": "string"
+          }
+        }
+      },
+      "ImageForFeedDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "portfolioName": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string"
+          }
+        }
+      },
+      "CreateImageReponseDto": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "comment": {
+            "type": "string"
+          },
+          "portfolio": {
+            "type": "object",
+            "$ref": "#/components/schemas/CreatePortfolioResponseDto"
+          },
+          "id": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string"
+          }
+        }
+      },
+      "RefreshTokenDto": {
+        "type": "object",
+        "properties": {
+          "refreshToken": {
+            "type": "string"
+          }
+        },
+        "required": ["refreshToken"]
+      },
+      "MessageResponseDto": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "UserDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "refreshToken": {
+            "type": "string"
+          }
+        }
+      },
+      "CreatePortfolioResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "user": {
+            "type": "object",
+            "$ref": "#/components/schemas/UserDto"
+          }
+        }
+      }
+    }
+  }
+}
